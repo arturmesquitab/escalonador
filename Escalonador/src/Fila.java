@@ -7,7 +7,7 @@ public class Fila {
 	private EscalonadorAlgo esc;
 	public void enfileirar(ArrayList<Processo> l)
 	{
-		lista = esc.apply(l);
+		lista = esc.getQueue();
 	}
 	public Processo getNext()
 	{
