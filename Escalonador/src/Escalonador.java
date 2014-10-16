@@ -6,6 +6,4 @@ public class Escalonador {
 	int nQueue;
 	HashMap<Integer,Fila> queuetype;
 	String migration;
-	//teste50!
-	int t;
 }

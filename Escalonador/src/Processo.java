@@ -1,27 +1,19 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
 
 public class Processo 
 {
-	public enum Prioridade
-	{
-		LOW, MEDIUM, HIGH
-	}
 	private Date TA; //TimeArrived
 	private int ID;
 	private float BurstTime;
-	private Prioridade p;
-	public Processo(Date tA, int iD, float burstTime, Prioridade p) {
+	private int p;
+	private float QuantumTime;
+	public Processo(Date tA, int iD, float burstTime, int p) {
 		this.TA = tA;
 		this.ID = iD;
 		this.BurstTime = burstTime;
 		this.p = p;
+		this.QuantumTime = 0;
 	}
 	public Date getTA() {
 		return TA;
@@ -32,11 +24,22 @@ public class Processo
 	public float getBurstTime() {
 		return BurstTime;
 	}
-	public Prioridade getP() {
+	public int getP() {
 		return p;
 	}
 	public void run() throws InterruptedException
 	{
-		Thread.sleep((long) BurstTime);
+		float time;
+		if (QuantumTime > 0)
+			time = QuantumTime;
+		else
+			time = BurstTime;
+		Thread.sleep((long) time);
+	}
+	public float getQuantumTime() {
+		return QuantumTime;
+	}
+	public void setQuantumTime(float quantumTime) {
+		QuantumTime = quantumTime;
 	}
 }
