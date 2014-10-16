@@ -8,13 +8,11 @@ public class Processo
 	private int ID;
 	private float BurstTime;
 	private int p;
-	private float QuantumTime;
 	public Processo(Date tA, int iD, float burstTime, int p) {
 		this.TA = tA;
 		this.ID = iD;
 		this.BurstTime = burstTime;
 		this.p = p;
-		this.QuantumTime = 0;
 	}
 	public Date getTA() {
 		return TA;
@@ -30,18 +28,8 @@ public class Processo
 	}
 	public void run() throws InterruptedException
 	{
-		float time;
-		if (QuantumTime > 0)
-			time = QuantumTime;
-		else
-			time = BurstTime;
-		Thread.sleep((long) time);
-	}
-	public float getQuantumTime() {
-		return QuantumTime;
-	}
-	public void setQuantumTime(float quantumTime) {
-		QuantumTime = quantumTime;
+			Thread.sleep(1);
+			BurstTime--;
 	}
 	
 	static Comparator<Processo> getFCFSComparator() {
