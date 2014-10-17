@@ -1,21 +1,16 @@
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 
 public class FCFS extends EscalonadorAlgo {
-
-	Queue<Processo> queue;
 	
-	public FCFS() {
-		queue = new PriorityQueue<Processo>(10, Processo.getFCFSComparator());
-	}
-	@Override
-	public Queue<Processo> getQueue() {
-		// TODO Auto-generated method stub
-		//Collections.sort(l, Processo.getFCFSComparator());
-		//Queue<Processo> queue = new LinkedList<Processo>(l);
-		//return queue;
-		return null;
+	Queue<Processo> queue;
+	Processo current;
+	
+	public FCFS(){
+		queue = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
 	@Override
@@ -24,8 +19,61 @@ public class FCFS extends EscalonadorAlgo {
 	}
 	
 	@Override
-	public Processo removeProcesso() {
-		Processo processo = queue.remove();
-		return processo;
+	public void removeProcesso() {
+		current = queue.poll();
 	}
+	
+	@Override
+	public Processo getCurrent(){
+		return current;
+	}
+
+	@Override
+	public void run(ArrayList<Processo> lista) {
+		long inicio = System.currentTimeMillis();
+		while(!lista.isEmpty()){
+			long mili = System.currentTimeMillis() - inicio;
+			mili = Math.round(mili/1000.0);
+			for(int i=0; i<lista.size();i++){
+				if(lista.get(i).getTA()<=mili){
+					System.out.println(mili+" - "+lista.get(i).getTA());
+					queue.add(lista.get(i));
+					lista.remove(i);
+				}
+			}
+		}
+	}
+	
+	public Comparator<Processo> getComparator() {
+        return new Comparator<Processo>() {
+			@Override
+			public int compare(Processo p1, Processo p2) {
+				if(p1.getTA() >= p2.getTA()){
+		        	return 1;
+		        } else{
+		        	return -1;
+		        }
+			}
+        };
+    }
+	
+	/** So para Testar
+	Simulando a Execucao**/
+	public void start(){
+		removeProcesso();
+		if(current!=null){
+			executeProcesso();
+		}
+	}
+	
+	public void executeProcesso(){
+		try {
+			Thread.sleep((long)current.getBurstTime()*100);
+			System.out.println(current.getID()+" - "+current.getTA());
+			start();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -1,33 +1,33 @@
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.Queue;
 
 
-public class SJF extends EscalonadorAlgo {
+public class RR extends EscalonadorAlgo {
 	
 	Queue<Processo> queue;
 	Processo current;
+	int Quantum = 4;
 	
-	public SJF(){
-		queue = new PriorityQueue<Processo>(10, getComparator());
+	public RR() {
+		queue  = new LinkedList<Processo>();
 	}
 	
 	@Override
 	public void addProcesso(Processo processo) {
 		queue.add(processo);
 	}
-
+	
 	@Override
 	public void removeProcesso() {
-		current = queue.poll();
+		current = queue.poll();;
 	}
 	
 	@Override
-	public Processo getCurrent() {
+	public Processo getCurrent(){
 		return current;
 	}
-
+	
 	@Override
 	public void run(ArrayList<Processo> lista) {
 		long inicio = System.currentTimeMillis();
@@ -44,19 +44,6 @@ public class SJF extends EscalonadorAlgo {
 		}
 	}
 	
-	public Comparator<Processo> getComparator() {
-        return new Comparator<Processo>() {
-			@Override
-			public int compare(Processo p1, Processo p2) {
-				if(p1.getBurstTime() >= p2.getBurstTime()){
-		        	return 1;
-		        } else{
-		        	return -1;
-		        }
-			}
-        };
-    }
-	
 	/** So para Testar
 	Simulando a Execucao**/
 	public void start(){
@@ -68,12 +55,15 @@ public class SJF extends EscalonadorAlgo {
 	
 	public void executeProcesso(){
 		try {
-			Thread.sleep((long)current.getBurstTime()*100);
+			Thread.sleep(100);
+			current.subBurstTime(Quantum);
 			System.out.println(current.getID()+" - "+current.getBurstTime());
+			if(current.getBurstTime()>0){
+				queue.add(current);
+			}
 			start();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -1,16 +1,18 @@
 import java.util.ArrayList;
-import java.util.Queue;
 
 
 public class Fila {
-	private Queue<Processo> lista;
+	//private Queue<Processo> lista;
+	private ArrayList<Processo> lista;
 	private EscalonadorAlgo esc;
+	
 	public void enfileirar(ArrayList<Processo> l)
 	{
-		lista = esc.getQueue();
+		//lista = esc.apply();
+		esc.run(lista);
 	}
-	public Processo getNext()
-	{
-		return lista.poll();
+	public Processo getNext() {
+		//return lista.poll();
+		return esc.getCurrent();
 	}
 }

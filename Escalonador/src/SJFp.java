@@ -4,17 +4,27 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 
-public class SJF extends EscalonadorAlgo {
+public class SJFp extends EscalonadorAlgo {
 	
 	Queue<Processo> queue;
 	Processo current;
+	long count;
 	
-	public SJF(){
+	public SJFp(){
 		queue = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
 	@Override
 	public void addProcesso(Processo processo) {
+		if(current!=null){
+			long mili = System.currentTimeMillis() - count;
+			mili = Math.round(mili/100.0);
+			
+			if(processo.getBurstTime()<mili){
+				current.setBurstTime(mili);
+				queue.add(current);
+			}
+		}
 		queue.add(processo);
 	}
 
@@ -33,7 +43,7 @@ public class SJF extends EscalonadorAlgo {
 		long inicio = System.currentTimeMillis();
 		while(!lista.isEmpty()){
 			long mili = System.currentTimeMillis() - inicio;
-			mili = Math.round(mili/1000.0);
+			mili = Math.round(mili/100.0);
 			for(int i=0; i<lista.size();i++){
 				if(lista.get(i).getTA()<=mili){
 					System.out.println(mili+" - "+lista.get(i).getTA());
@@ -57,23 +67,22 @@ public class SJF extends EscalonadorAlgo {
         };
     }
 	
-	/** So para Testar
-	Simulando a Execucao**/
+	//Simulando a Execucao
 	public void start(){
 		removeProcesso();
 		if(current!=null){
+			System.out.println(current.getID()+" - "+current.getBurstTime());
 			executeProcesso();
 		}
 	}
 	
-	public void executeProcesso(){
+	public void executeProcesso() {
+		count = System.currentTimeMillis();
 		try {
 			Thread.sleep((long)current.getBurstTime()*100);
-			System.out.println(current.getID()+" - "+current.getBurstTime());
-			start();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		start();
 	}
-
 }

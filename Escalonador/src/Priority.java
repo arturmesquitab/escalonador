@@ -4,12 +4,13 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 
-public class SJF extends EscalonadorAlgo {
+public class Priority extends EscalonadorAlgo {
 	
 	Queue<Processo> queue;
 	Processo current;
 	
-	public SJF(){
+	public Priority(){
+		//queue = new PriorityQueue<Processo>(10, Processo.getPriorityComparator());
 		queue = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
@@ -48,10 +49,10 @@ public class SJF extends EscalonadorAlgo {
         return new Comparator<Processo>() {
 			@Override
 			public int compare(Processo p1, Processo p2) {
-				if(p1.getBurstTime() >= p2.getBurstTime()){
-		        	return 1;
-		        } else{
+				if(p1.getP() > p2.getP()){
 		        	return -1;
+		        } else{
+		        	return 1;
 		        }
 			}
         };
@@ -65,15 +66,15 @@ public class SJF extends EscalonadorAlgo {
 			executeProcesso();
 		}
 	}
-	
+		
 	public void executeProcesso(){
 		try {
 			Thread.sleep((long)current.getBurstTime()*100);
-			System.out.println(current.getID()+" - "+current.getBurstTime());
+			System.out.println(current.getID()+" - "+current.getP());
 			start();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 }

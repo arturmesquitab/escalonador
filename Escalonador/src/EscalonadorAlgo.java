@@ -1,8 +1,8 @@
-import java.util.Queue;
-
+import java.util.ArrayList;
 
 public abstract class EscalonadorAlgo {
-	public abstract Queue<Processo> getQueue();
-	public abstract void addProcesso(Processo processo);
-	public abstract Processo removeProcesso();
+	public abstract  void addProcesso(Processo processo);
+	public abstract void removeProcesso();
+	public abstract Processo getCurrent();
+	public abstract  void run(ArrayList<Processo> lista);
 }
