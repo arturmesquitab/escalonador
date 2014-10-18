@@ -1,5 +1,9 @@
 
 public class Processador {
+	int time;
+	public boolean isRun() {
+		return run;
+	}
 	public enum Status
 	{
 		RUN,SLEEP
@@ -21,7 +25,7 @@ public class Processador {
 	}
 	public float run() throws InterruptedException
 	{
-		int time = 0;
+		time = 0;
 		//Forgot to throw exception when processor is running!
 		s = Status.RUN;
 		run = true;
@@ -36,5 +40,8 @@ public class Processador {
 	public void interruption()
 	{
 		run = false;
+	}
+	public int getTime() {
+		return time;
 	}
 }

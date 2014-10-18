@@ -5,15 +5,23 @@ import java.util.Queue;
 
 public class RR extends EscalonadorAlgo {
 		
-	public RR()
+	int quantum;
+	public RR(int quantum)
 	{
 		super();
 		fila = new LinkedList<Processo>();
+		this.quantum = quantum;
 	}
 	
 	@Override
 	public String toString() {
 		return "RR";
+	}
+	public boolean restricao(int time)
+	{
+		if (time > quantum)
+			return false;
+		return true;
 	}
 	
 	/*

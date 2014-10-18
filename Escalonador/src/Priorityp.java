@@ -28,5 +28,11 @@ public class Priorityp extends EscalonadorAlgo {
 			}
         };
     }
+	public boolean restricao(Processo p)
+	{
+		if (fila.element().getP() > p.getP())
+			return false;
+		return true;
+	}
 
 }

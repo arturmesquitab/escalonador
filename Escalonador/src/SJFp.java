@@ -29,6 +29,12 @@ public class SJFp extends EscalonadorAlgo {
         };
     }
 	
+	public boolean restricao(Processo p)
+	{
+		if (fila.element().getBurstTime() > p.getBurstTime())
+			return false;
+		return true;
+	}
 	/*
 	Queue<Processo> queue;
 	Processo current;
@@ -58,7 +64,7 @@ public class SJFp extends EscalonadorAlgo {
 	}
 	
 	@Override
-	public Processo getCurrent() {
+	pubFCFSlic Processo getCurrent() {
 		return current;
 	}
 
