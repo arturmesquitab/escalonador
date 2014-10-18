@@ -3,7 +3,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 
-public class FCFS extends EscalonadorAlgo {
+public class SJFp extends EscalonadorAlgo {
 	
 	@Override
 	public Queue<Processo> apply() {
@@ -12,14 +12,14 @@ public class FCFS extends EscalonadorAlgo {
 	
 	@Override
 	public String toString() {
-		return "FCFS";	
+		return "SJFp";
 	}
 	
 	public Comparator<Processo> getComparator() {
         return new Comparator<Processo>() {
 			@Override
 			public int compare(Processo p1, Processo p2) {
-				if(p1.getTA() >= p2.getTA()){
+				if(p1.getBurstTime() >= p2.getBurstTime()){
 		        	return 1;
 		        } else{
 		        	return -1;
@@ -31,23 +31,33 @@ public class FCFS extends EscalonadorAlgo {
 	/*
 	Queue<Processo> queue;
 	Processo current;
+	long count;
 	
-	public FCFS(){
+	public SJFp(){
 		queue = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
 	@Override
-	public void addProcesso(Queue<Processo> queue, Processo processo) {
+	public void addProcesso(Processo processo) {
+		if(current!=null){
+			long mili = System.currentTimeMillis() - count;
+			mili = Math.round(mili/100.0);
+			
+			if(processo.getBurstTime()<mili){
+				current.setBurstTime(mili);
+				queue.add(current);
+			}
+		}
 		queue.add(processo);
 	}
-	
+
 	@Override
 	public void removeProcesso() {
 		current = queue.poll();
 	}
 	
 	@Override
-	public Processo getCurrent(){
+	public Processo getCurrent() {
 		return current;
 	}
 
@@ -56,7 +66,7 @@ public class FCFS extends EscalonadorAlgo {
 		long inicio = System.currentTimeMillis();
 		while(!lista.isEmpty()){
 			long mili = System.currentTimeMillis() - inicio;
-			mili = Math.round(mili/1000.0);
+			mili = Math.round(mili/100.0);
 			for(int i=0; i<lista.size();i++){
 				if(lista.get(i).getTA()<=mili){
 					System.out.println(mili+" - "+lista.get(i).getTA());
@@ -67,22 +77,23 @@ public class FCFS extends EscalonadorAlgo {
 		}
 	}
 	
-	//So para Testar
+	//Simulando a Execucao
 	public void start(){
 		removeProcesso();
 		if(current!=null){
+			System.out.println(current.getID()+" - "+current.getBurstTime());
 			executeProcesso();
 		}
 	}
 	
-	public void executeProcesso(){
+	public void executeProcesso() {
+		count = System.currentTimeMillis();
 		try {
 			Thread.sleep((long)current.getBurstTime()*100);
-			System.out.println(current.getID()+" - "+current.getTA());
-			start();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		start();
 	}
 	*/
 }
