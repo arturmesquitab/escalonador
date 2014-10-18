@@ -28,6 +28,10 @@ public class SJF extends EscalonadorAlgo {
 			}
         };
     }
+	public boolean restricao (Processo p)
+	{
+		return true;
+	}
 	
 	/*Queue<Processo> queue;
 	Processo current;

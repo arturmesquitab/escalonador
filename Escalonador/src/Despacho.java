@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 public class Despacho {
 	private boolean run;
@@ -18,5 +21,13 @@ public class Despacho {
 	public void stop()
 	{
 		run = false;
+	}
+	public void addProcessor(Processo p) throws InterruptedException
+	{
+		l.executarProcesso(p);
+	}
+	public void stopProcesso(int ID)
+	{
+		l.pararProcesso(ID);
 	}
 }

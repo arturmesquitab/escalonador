@@ -28,6 +28,10 @@ public class FCFS extends EscalonadorAlgo {
 			}
         };
     }
+	public boolean restricao(Processo p)
+	{
+		return true;
+	}
 
 
 	

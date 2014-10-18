@@ -4,17 +4,13 @@ public class Processador {
 	public boolean isRun() {
 		return run;
 	}
-	public enum Status
-	{
-		RUN,SLEEP
-	}
-	private Status s;
+	private StatusProcessador s;
 	private Processo p;
 	private boolean run;
-	public Status getS() {
+	public StatusProcessador getS() {
 		return s;
 	}
-	public void setS(Status s) {
+	public void setS(StatusProcessador s) {
 		this.s = s;
 	}
 	public Processo getP() {
@@ -23,18 +19,24 @@ public class Processador {
 	public void setP(Processo p) {
 		this.p = p;
 	}
-	public float run() throws InterruptedException
+	public float run(Processo p) throws InterruptedException
 	{
+		setP(p);
 		time = 0;
 		//Forgot to throw exception when processor is running!
-		s = Status.RUN;
+		p.setStatus(StatusProcesso.RUN);
+		s = StatusProcessador.RUN;
 		run = true;
-		while (run && p.getBurstTime() > 0)
+		while (run && p.getBurstTime() == p.getTime())
 		{
 			p.run();
 			time++;
 		}
-		s = Status.SLEEP;
+		if (p.getBurstTime() != p.getTime())
+			p.setStatus(StatusProcesso.SLEEP);
+		else
+			p.setStatus(StatusProcesso.FINISH);
+		s = StatusProcessador.SLEEP;
 		return time;
 	}
 	public void interruption()

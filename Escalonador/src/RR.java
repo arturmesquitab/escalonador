@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -17,9 +18,14 @@ public class RR extends EscalonadorAlgo {
 	public String toString() {
 		return "RR";
 	}
-	public boolean restricao(int time)
+
+	public int getQuantum() {
+		return quantum;
+	}
+
+	public boolean restricao(Processo p)
 	{
-		if (time > quantum)
+		if (p.getTime() > quantum)
 			return false;
 		return true;
 	}

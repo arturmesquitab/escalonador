@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -30,8 +31,12 @@ public class Priorityp extends EscalonadorAlgo {
     }
 	public boolean restricao(Processo p)
 	{
-		if (fila.element().getP() > p.getP())
-			return false;
+		for (Iterator<Processo> it = fila.iterator(); it.hasNext();)
+		{
+			Processo a = it.next();
+			if (a.getP() > p.getP())
+				return false;
+		}
 		return true;
 	}
 

@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -31,8 +32,12 @@ public class SJFp extends EscalonadorAlgo {
 	
 	public boolean restricao(Processo p)
 	{
-		if (fila.element().getBurstTime() > p.getBurstTime())
-			return false;
+		for (Iterator<Processo> it = fila.iterator(); it.hasNext();)
+		{
+			Processo a = it.next();
+			if (a.getBurstTime() > p.getBurstTime())
+				return false;
+		}
 		return true;
 	}
 	/*

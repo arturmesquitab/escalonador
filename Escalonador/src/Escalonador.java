@@ -6,6 +6,31 @@ public class Escalonador {
 	int nQueue;
 	HashMap<Integer,Fila> queuetype;
 	String migration;
+	ProcessadorCollection processadores;
+	public ProcessadorCollection getProcessadores() {
+		return processadores;
+	}
+	public int getnProcessor() {
+		return nProcessor;
+	}
+	public int getnQueue() {
+		return nQueue;
+	}
+	public HashMap<Integer, Fila> getQueuetype() {
+		return queuetype;
+	}
+	public String getMigration() {
+		return migration;
+	}
+	public int getTime() {
+		return time;
+	}
+	public boolean isRun() {
+		return run;
+	}
+	public Despacho getD() {
+		return d;
+	}
 	int time;
 	boolean run;
 	Despacho d;
@@ -27,5 +52,9 @@ public class Escalonador {
 	{
 		run = false;
 		d.stop();
+	}
+	public boolean freeProcessador()
+	{
+		return processadores.freeProcessador();
 	}
 }
