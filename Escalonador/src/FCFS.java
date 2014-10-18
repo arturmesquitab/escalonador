@@ -5,9 +5,10 @@ import java.util.Queue;
 
 public class FCFS extends EscalonadorAlgo {
 	
-	@Override
-	public Queue<Processo> apply() {
-		return new PriorityQueue<Processo>(10, getComparator());	
+	public FCFS()
+	{
+		super();
+		fila = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
 	@Override
@@ -27,6 +28,8 @@ public class FCFS extends EscalonadorAlgo {
 			}
         };
     }
+
+
 	
 	/*
 	Queue<Processo> queue;

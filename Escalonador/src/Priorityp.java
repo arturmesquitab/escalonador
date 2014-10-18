@@ -5,9 +5,10 @@ import java.util.Queue;
 
 public class Priorityp extends EscalonadorAlgo {
 
-	@Override
-	public Queue<Processo> apply() {
-		return new PriorityQueue<Processo>(10, getComparator());	
+	public Priorityp()
+	{
+		super();
+		fila = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
 	@Override
@@ -27,4 +28,5 @@ public class Priorityp extends EscalonadorAlgo {
 			}
         };
     }
+
 }

@@ -1,12 +1,14 @@
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 
 public class RR extends EscalonadorAlgo {
 		
-	@Override
-	public Queue<Processo> apply() {
-		return new LinkedList<Processo>();	
+	public RR()
+	{
+		super();
+		fila = new LinkedList<Processo>();
 	}
 	
 	@Override

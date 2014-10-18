@@ -5,9 +5,10 @@ import java.util.Queue;
 
 public class SJFp extends EscalonadorAlgo {
 	
-	@Override
-	public Queue<Processo> apply() {
-		return new PriorityQueue<Processo>(10, getComparator());	
+	public SJFp()
+	{
+		super();
+		fila = new PriorityQueue<Processo>(10, getComparator());
 	}
 	
 	@Override
