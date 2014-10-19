@@ -1,12 +1,50 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
-public class Escalonador {
+
+public class Escalonador implements Runnable {
 	int nProcessor;
 	int nQueue;
 	HashMap<Integer,Fila> queuetype;
 	String migration;
 	ProcessadorCollection processadores;
+	ArrayList<Processo> processos;
+	MultinivelFila m;
+	public Escalonador (String processos, String configuracoes) throws IOException
+	{
+		loadProcesses(processos);
+		Configuration c = new Configuration(configuracoes);
+		setInitialParameters(c);
+		System.out.println("All entries on system");
+		this.d = new Despacho(processadores);
+	}
+	public void setInitialParameters(Configuration c)
+	{
+		this.nProcessor = c.getNumProcessors();
+		this.nQueue = c.getNumQueues();
+		int i = 1;
+		queuetype = new HashMap<Integer,Fila>();
+		for (String s : c.getAlAlgorithms())
+		{
+			queuetype.put(i, new Fila(s));
+			i++;
+		}
+		migration = c.getMigration();
+		if (!c.getAlQuantum().isEmpty())
+		{
+			for (Integer j : c.getAlQuantum().keySet())
+			{
+				Integer value = c.getAlQuantum().get(j);
+				((RR)queuetype.get(j).getEscalonamento()).setQuantum(value);
+			}
+		}
+		m = new MultinivelFila(this, queuetype);
+	}
 	public ProcessadorCollection getProcessadores() {
 		return processadores;
 	}
@@ -31,21 +69,35 @@ public class Escalonador {
 	public Despacho getD() {
 		return d;
 	}
-	int time;
-	boolean run;
-	Despacho d;
-	void start() throws InterruptedException
+	private int time;
+	private boolean run;
+	private Despacho d;
+	public void start() throws InterruptedException
 	{
 		run = true;
 		runSchedule();
 	}
+	public void run()
+	{
+		try {
+			start();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	void runSchedule() throws InterruptedException
 	{
-		d.run();
+		System.out.println("Running Schedule");
+		System.out.println("Actual time: "+time);
+		Thread t1 = new Thread(d);
+		t1.start();
 		while (run)
 		{
-			Thread.sleep(1);
+			CheckNewProcesses();
+			Thread.sleep(1000);
 			time++;
+			System.out.println("Time: "+time);
 		}
 	}
 	void stop()
@@ -56,5 +108,38 @@ public class Escalonador {
 	public boolean freeProcessador()
 	{
 		return processadores.freeProcessador();
+	}
+	public void loadProcesses(String nomeArquivo) throws IOException
+	{
+		System.out.println("Reading file "+nomeArquivo);
+		System.out.println("Starting reading processes");
+		processos = new ArrayList<Processo>();
+		BufferedReader bf = new BufferedReader(new FileReader(nomeArquivo));
+			
+		while (bf.ready()) {
+			String[] line = bf.readLine().split(",");
+			processos.add(new Processo(Integer.parseInt(line[0].trim()), Integer.parseInt(line[1].trim()), Integer.parseInt(line[2].trim()), Integer.parseInt(line[3].trim())));
+		}
+			
+		bf.close();
+		System.out.println("Done");
+		System.out.println("Processes:");
+		System.out.println("ID\t BurstTime\t TimeArrive\t Priority");
+		for (Processo p : processos)
+			System.out.println(p.getID()+"\t"+p.getBurstTime()+"\t"+p.getTA()+"\t"+p.getP());
+	}
+	public void CheckNewProcesses()
+	{
+		synchronized(processos)
+		{
+			for (Processo p : processos)
+			{
+				if (time == p.getTA())
+				{
+					m.arrive(p);
+					//processos.remove(p);
+				}
+			}
+		}
 	}
 }

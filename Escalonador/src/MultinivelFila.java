@@ -6,8 +6,14 @@ public class MultinivelFila {
 	private Escalonador e;
 	private HashMap<Integer,Fila> filas;
 	private boolean run;
+	public MultinivelFila (Escalonador e, HashMap<Integer,Fila> f)
+	{
+		this.e = e;
+		this.filas = f;
+	}
 	public void arrive(Processo p)
 	{
+		System.out.println("Process "+p.getID()+" arrived");
 		filas.get(1).add(p); //Colocar na primeira fila
 	}
 	public void RRajust()

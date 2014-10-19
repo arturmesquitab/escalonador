@@ -1,21 +1,36 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 
-public class Despacho {
+public class Despacho implements Runnable{
 	private boolean run;
 	private ProcessadorCollection l;
+	private ArrayList<Processo> p;
+	private int i;
 	public Despacho(ProcessadorCollection l)
 	{
+		i = 0;
 		run = false;
 		this.l = l;
+		p = new ArrayList<Processo>();
+	}
+	public void start()
+	{
+		System.out.println("Running Despacher");
+		run();
 	}
 	public void run()
 	{
 		run = true;
 		while (run)
 		{
-			//Procurar processo para despachar
+			try {
+				checkNewProcesses();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	public void stop()
@@ -24,10 +39,31 @@ public class Despacho {
 	}
 	public void addProcessor(Processo p) throws InterruptedException
 	{
+		this.p.add(p);
 		l.executarProcesso(p);
 	}
 	public void stopProcesso(int ID)
 	{
 		l.pararProcesso(ID);
+	}
+	public void checkNewProcesses() throws InterruptedException
+	{
+		if (!p.isEmpty())
+		{
+			i = 0;
+			for (Processo x : p)
+			{
+				System.out.println("Sending "+x.getID()+" to run");
+				l.executarProcesso(x);
+			}
+		}
+		else
+		{
+			if (i == 0)
+			{
+				i++;
+				System.out.println("No processes to run");
+			}
+		}
 	}
 }

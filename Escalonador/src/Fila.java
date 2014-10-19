@@ -3,6 +3,23 @@ import java.util.Iterator;
 
 public class Fila {
 	private EscalonadorAlgo esc;
+	public Fila (String s)
+	{
+		switch (s)
+		{
+			case "RR":
+				esc = new RR();
+				break;
+			case "SJF":
+				esc = new SJF();
+			case "SJFp":
+				esc = new SJFp();
+			case "FCFS":
+				esc = new FCFS();
+			case "Priorityp":
+				esc = new Priorityp();
+		}
+	}
 	public void add(Processo p)
 	{
 		esc.getFila().add(p);

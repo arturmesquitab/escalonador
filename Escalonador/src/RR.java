@@ -13,6 +13,15 @@ public class RR extends EscalonadorAlgo {
 		fila = new LinkedList<Processo>();
 		this.quantum = quantum;
 	}
+	public RR()
+	{
+		super();
+		fila = new LinkedList<Processo>();
+	}
+	public void setQuantum(int quantum)
+	{
+		this.quantum = quantum;
+	}
 	
 	@Override
 	public String toString() {

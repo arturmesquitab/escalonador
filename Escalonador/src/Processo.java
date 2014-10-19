@@ -19,13 +19,21 @@ public class Processo
 		this.time = 0;
 		this.status = StatusProcesso.READY;
 	}
+	public Processo(Processo p2) {
+		this.TA = p2.getTA();
+		this.ID = p2.getID();
+		this.BurstTime = (int) p2.getBurstTime();
+		this.p = p2.getP();
+		this.time = 0;
+		this.status = StatusProcesso.READY;
+	}
 	public int getTA() {
 		return TA;
 	}
 	public int getID() {
 		return ID;
 	}
-	public float getBurstTime() {
+	public int getBurstTime() {
 		return BurstTime;
 	}
 	public int getP() {
@@ -33,7 +41,7 @@ public class Processo
 	}
 	public void run() throws InterruptedException
 	{
-			Thread.sleep(1);
+			Thread.sleep(1000);
 			time++;
 	}
 	public StatusProcesso getStatus() {
