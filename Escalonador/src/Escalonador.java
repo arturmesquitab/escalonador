@@ -44,6 +44,7 @@ public class Escalonador implements Runnable {
 			}
 		}
 		m = new MultinivelFila(this, queuetype);
+		processadores = new ProcessadorCollection(nProcessor,m);
 	}
 	public ProcessadorCollection getProcessadores() {
 		return processadores;
@@ -91,7 +92,9 @@ public class Escalonador implements Runnable {
 		System.out.println("Running Schedule");
 		System.out.println("Actual time: "+time);
 		Thread t1 = new Thread(d);
+		Thread t2 = new Thread(m);
 		t1.start();
+		t2.start();
 		while (run)
 		{
 			CheckNewProcesses();
@@ -128,7 +131,7 @@ public class Escalonador implements Runnable {
 		for (Processo p : processos)
 			System.out.println(p.getID()+"\t"+p.getBurstTime()+"\t"+p.getTA()+"\t"+p.getP());
 	}
-	public void CheckNewProcesses()
+	public void CheckNewProcesses() throws InterruptedException
 	{
 		synchronized(processos)
 		{

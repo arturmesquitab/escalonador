@@ -41,8 +41,8 @@ public class Processo
 	}
 	public void run() throws InterruptedException
 	{
-			Thread.sleep(1000);
-			time++;
+		Thread.sleep(1000);
+		time++;
 	}
 	public StatusProcesso getStatus() {
 		return status;

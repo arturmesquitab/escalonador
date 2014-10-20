@@ -3,9 +3,14 @@ import java.util.ArrayList;
 
 public class ProcessadorCollection {
 	private ArrayList<Processador> listaPC;
-	public ProcessadorCollection()
+	public ProcessadorCollection(int n, MultinivelFila m)
 	{
 		listaPC = new ArrayList<Processador>();
+		for (int i = 0;i < n;i++)
+		{
+			Processador p = new Processador(m,i+1);
+			listaPC.add(p);
+		}
 	}
 	public void add(Processador p)
 	{
@@ -25,7 +30,12 @@ public class ProcessadorCollection {
 		for (Processador it : listaPC)
 		{
 			if (!it.isRun())
-				it.run(p);
+			{
+				it.setP(p);
+				Thread t = new Thread(it);
+				t.start();
+				break;
+			}
 		}
 	}
 	public void pararProcesso(int ID)

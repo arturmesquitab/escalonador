@@ -17,11 +17,11 @@ public class Despacho implements Runnable{
 	}
 	public void start()
 	{
-		System.out.println("Running Despacher");
 		run();
 	}
 	public void run()
 	{
+		System.out.println("Running Despacher");
 		run = true;
 		while (run)
 		{
@@ -39,8 +39,11 @@ public class Despacho implements Runnable{
 	}
 	public void addProcessor(Processo p) throws InterruptedException
 	{
-		this.p.add(p);
-		l.executarProcesso(p);
+		synchronized(this.p)
+		{
+			p.setStatus(StatusProcesso.READY);
+			this.p.add(p);
+		}
 	}
 	public void stopProcesso(int ID)
 	{
@@ -48,21 +51,25 @@ public class Despacho implements Runnable{
 	}
 	public void checkNewProcesses() throws InterruptedException
 	{
-		if (!p.isEmpty())
+		synchronized(this.p)
 		{
-			i = 0;
-			for (Processo x : p)
+			if (!p.isEmpty())
 			{
-				System.out.println("Sending "+x.getID()+" to run");
-				l.executarProcesso(x);
+				i = 0;
+				for (Processo x : p)
+				{
+					System.out.println("Sending "+x.getID()+" to run");
+					l.executarProcesso(x);
+				}
+				p.clear();
 			}
-		}
-		else
-		{
-			if (i == 0)
+			else
 			{
-				i++;
-				System.out.println("No processes to run");
+				if (i == 0)
+				{
+					i++;
+					System.out.println("No processes to run");
+				}
 			}
 		}
 	}

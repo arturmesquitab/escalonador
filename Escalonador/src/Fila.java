@@ -42,7 +42,13 @@ public class Fila {
 	}
 	public Processo next()
 	{
-		return esc.getFila().element();
+		for (Iterator<Processo> it = esc.getFila().iterator();it.hasNext();)
+		{
+			Processo p = it.next();
+			if (p.getStatus() == StatusProcesso.QUEUE)
+				return p;
+		}
+		return null;
 	}
 	public boolean isEmpty()
 	{
@@ -50,7 +56,12 @@ public class Fila {
 	}
 	public void enviarProcesso(Despacho d) throws InterruptedException
 	{
-		d.addProcessor(next());
+		Processo p = next();
+		if (p != null)
+		{
+			p.setStatus(StatusProcesso.READY);
+			d.addProcessor(p);
+		}
 	}
 	public boolean restricao(Processo p)
 	{
