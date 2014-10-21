@@ -1,8 +1,15 @@
 import java.util.Iterator;
 
-
+/**
+ * Classe representando uma fila de processos pra escalonamento 
+ *
+ */
 public class Fila {
 	private EscalonadorAlgo esc;
+	/**
+	 * Constructor da classe Fila
+	 * @param s String: o tipo de escalonamento a ser utilizado(Ex: RR,SJB ...)
+	 */
 	public Fila (String s)
 	{
 		switch (s)
@@ -20,18 +27,34 @@ public class Fila {
 				esc = new Priorityp();
 		}
 	}
+	/**
+	 * Adiciona um processo a fila
+	 * @param p Processo: o processo a ser adicionado a fila
+	 */
 	public void add(Processo p)
 	{
 		esc.getFila().add(p);
 	}
+	/**
+	 * Retorna o tamanho da fila
+	 * @return int: o tamanho da fila
+	 */
 	public int size()
 	{
 		return esc.getFila().size();
 	}
+	/**
+	 * Retorna o iterador da fila
+	 * @return Iterator: iterador da fila
+	 */
 	public Iterator<Processo> get()
 	{
 		return esc.getFila().iterator();
 	}
+	/**
+	 * Remove um processo da fila
+	 * @param p Processo: o processo a ser removido da fila
+	 */
 	public void remove(Processo p)
 	{
 		esc.getFila().remove(p);
@@ -40,6 +63,10 @@ public class Fila {
 	{
 		return esc;
 	}
+	/**
+	 * Retorna o proximo processo da fila(caso haja) a ser executado
+	 * @return p Processo: o proximo processo da fila
+	 */
 	public Processo next()
 	{
 		for (Iterator<Processo> it = esc.getFila().iterator();it.hasNext();)
@@ -54,6 +81,11 @@ public class Fila {
 	{
 		return esc.getFila().isEmpty();
 	}
+	/**
+	 * Envia um processo para o despacho
+	 * @param d Despacho: um classe de despacho
+	 * @throws InterruptedException
+	 */
 	public void enviarProcesso(Despacho d) throws InterruptedException
 	{
 		Processo p = next();

@@ -5,20 +5,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-
+/**
+ * Essa classe representa as configuracoes do escalonador(vindo do arquivo txt)
+ *
+ */
 public class Configuration {
 	private int numProcessors;
 	private int numQueues;
 	private ArrayList<String> alAlgorithms;
 	private HashMap<Integer, Integer> alQuantum;
 	private String migration;
-
+	/**Construtor da classe configuration, serve apenas para forcar a chamada do metodo setInitialParameters,
+	 * da mesma classe
+	 * 
+	 * @param s: String, o o caminho do arquivo txt com os parametros iniciais do sistema
+	 * @throws IOException
+	 */
 	public Configuration(String s) throws IOException
 	{
 		setInitialParameters(s);
 	}
 
-
+	/**
+	 * Le o arquivo txt com as informacoes de configuracao do sistema e guarda essas informacoes
+	 * @param path: String, o caminho do arquivo txt com os parametros iniciais do sistema
+	 * @throws IOException
+	 */
 	public void setInitialParameters(String path) throws IOException {
 		System.out.println("Reading file "+path);
 		System.out.println("Starting reading configurations");

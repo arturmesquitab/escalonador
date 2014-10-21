@@ -3,10 +3,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 
-
+/**
+ * Essa e a classe que representa o escalonador.
+ *
+ */
 public class Escalonador implements Runnable {
 	int nProcessor;
 	int nQueue;
@@ -15,6 +17,13 @@ public class Escalonador implements Runnable {
 	ProcessadorCollection processadores;
 	ArrayList<Processo> processos;
 	MultinivelFila m;
+	/**
+	 * Metodo construtor, usado pra forcar que as configuracoes iniciais do escalonador sejam
+	 * inicializadas junto com o escalonador
+	 * @param processos: String, representado os processos do sistema
+	 * @param configuracoes: String, com as configuracoes inicias do sistema
+	 * @throws IOException
+	 */
 	public Escalonador (String processos, String configuracoes) throws IOException
 	{
 		loadProcesses(processos);
@@ -23,6 +32,9 @@ public class Escalonador implements Runnable {
 		System.out.println("All entries on system");
 		this.d = new Despacho(processadores);
 	}
+	/**Inicializa as variaveis do escalonador e outras configurações
+	 * @param c: Configuration, classe com a configuracao inicial do sistema
+	 */
 	public void setInitialParameters(Configuration c)
 	{
 		this.nProcessor = c.getNumProcessors();
@@ -108,10 +120,15 @@ public class Escalonador implements Runnable {
 		run = false;
 		d.stop();
 	}
-	public boolean freeProcessador()
+	public boolean freeProcessador() throws InterruptedException
 	{
 		return processadores.freeProcessador();
 	}
+	/**
+	 * Le os processos do arquivo
+	 * @param nomeArquivo
+	 * @throws IOException
+	 */
 	public void loadProcesses(String nomeArquivo) throws IOException
 	{
 		System.out.println("Reading file "+nomeArquivo);

@@ -1,10 +1,14 @@
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
-
+/**
+ * Classe repesentando o metodo de escalonamento SJF(Shortest Job First)
+ *
+ */
 public class SJF extends EscalonadorAlgo {
-	
+	/**
+	 * Construtor do SJF
+	 */
 	public SJF()
 	{
 		super();
@@ -15,7 +19,10 @@ public class SJF extends EscalonadorAlgo {
 	public String toString() {
 		return "SJF";
 	}
-	
+	/**
+	 * Metodo comparador, serve pra decidir qual processo tem mais prioridade(pra priorityQueue)
+	 * @return 1 ou -1
+	 */
 	public Comparator<Processo> getComparator() {
         return new Comparator<Processo>() {
 			@Override

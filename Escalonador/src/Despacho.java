@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 
 public class Despacho implements Runnable{
@@ -45,7 +43,7 @@ public class Despacho implements Runnable{
 			this.p.add(p);
 		}
 	}
-	public void stopProcesso(int ID)
+	public void stopProcesso(int ID) throws InterruptedException
 	{
 		l.pararProcesso(ID);
 	}

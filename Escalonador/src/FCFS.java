@@ -1,10 +1,14 @@
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
-
+/**
+ * Classe repesentando o metodo de escalonamento FCFS(First Come First Served)
+ *
+ */
 public class FCFS extends EscalonadorAlgo {
-	
+	/**
+	 * Construtor do metodo FCFS
+	 */
 	public FCFS()
 	{
 		super();
@@ -15,7 +19,10 @@ public class FCFS extends EscalonadorAlgo {
 	public String toString() {
 		return "FCFS";	
 	}
-	
+	/**
+	 * Metodo comparador, serve pra decidir qual processo tem mais prioridade(pra priorityQueue)
+	 * @return 1 ou -1
+	 */
 	public Comparator<Processo> getComparator() {
         return new Comparator<Processo>() {
 			@Override

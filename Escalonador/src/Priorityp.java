@@ -1,11 +1,15 @@
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
-
+/**
+ * Classe repesentando o metodo de escalonamento Priorityp(Priority Pick)
+ *
+ */
 public class Priorityp extends EscalonadorAlgo {
-
+	/**
+	 * Construtor da classe PriorityP
+	 */
 	public Priorityp()
 	{
 		super();
@@ -16,7 +20,10 @@ public class Priorityp extends EscalonadorAlgo {
 	public String toString() {
 		return "Priorityp";
 	}
-	
+	/**
+	 * Metodo comparador, serve pra decidir qual processo tem mais prioridade(pra priorityQueue)
+	 * @return 1 ou -1
+	 */
 	public Comparator<Processo> getComparator() {
         return new Comparator<Processo>() {
 			@Override

@@ -1,6 +1,9 @@
 import java.io.IOException;
 
-
+/**
+ * Classe inicial do programa, usada somente pra pegar os parametros iniciais do sistema e comecar o escalonador
+ * 
+ */
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {

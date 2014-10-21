@@ -1,18 +1,26 @@
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 
+/**
+ * Classe repesentando o metodo de escalonamento RR(Round Robin)
+ *
+ */
 public class RR extends EscalonadorAlgo {
 		
 	int quantum;
+	/**
+	 * Construtor da classe RR, inicializada com o quantum
+	 * @param quantum, int valor do quantum da classe
+	 */
 	public RR(int quantum)
 	{
 		super();
 		fila = new LinkedList<Processo>();
 		this.quantum = quantum;
 	}
+	/**
+	 * Construtor da classe, inicializada sem o quantum
+	 */
 	public RR()
 	{
 		super();

@@ -1,14 +1,22 @@
-
+/**
+ * Classe que representa um processador
+ *
+ */
 public class Processador implements Runnable {
 	private int time;
 	private MultinivelFila m;
 	private int id;
 	public boolean isRun() {
-		return run;
+		return s == StatusProcessador.RUN;
 	}
 	private StatusProcessador s;
 	private Processo p;
 	private boolean run;
+	/**
+	 * Construtor da classe processador
+	 * @param m MultinivelFila: uma fila
+	 * @param id int: id do processador
+	 */
 	public Processador(MultinivelFila m, int id)
 	{
 		s = StatusProcessador.SLEEP;
@@ -20,6 +28,7 @@ public class Processador implements Runnable {
 		return s;
 	}
 	public void setS(StatusProcessador s) {
+		System.out.println("Processor "+id+" changed status to "+s.toString());
 		this.s = s;
 	}
 	public Processo getP() {
@@ -28,6 +37,11 @@ public class Processador implements Runnable {
 	public void setP(Processo p) {
 		this.p = p;
 	}
+	/**
+	 * Roda um processo no processador
+	 * @return time int: o tempo que demorou pra rodar o precoesso
+	 * @throws InterruptedException
+	 */
 	public int runProcess() throws InterruptedException
 	{
 		setP(p);
@@ -57,6 +71,9 @@ public class Processador implements Runnable {
 		s = StatusProcessador.SLEEP;
 		return time;
 	}
+	/**
+	 * Interrompe o processador
+	 */
 	public void interruption()
 	{
 		run = false;
@@ -72,5 +89,8 @@ public class Processador implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public int getId() {
+		return id;
 	}
 }

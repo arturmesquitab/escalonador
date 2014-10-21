@@ -54,7 +54,10 @@ public class MultinivelFila implements Runnable {
 			while (it.hasNext())
 			{
 				if ((it.next().getStatus() == StatusProcesso.FINISH))
+				{
+					
 					it.remove();
+				}
 			}
 		}
 		s.release();
@@ -69,7 +72,10 @@ public class MultinivelFila implements Runnable {
 			{
 				Processo p = it.next();
 				if (p.getID() == id)
+				{
+					System.out.println("Process "+p.getID()+" changed status to "+sp.toString());
 					p.setStatus(sp);
+				}
 			}
 		}
 		s.release();
@@ -96,26 +102,31 @@ public class MultinivelFila implements Runnable {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}*/
-			if (e.freeProcessador())
-			{
-				int next = -1;
-				try {
-					next = next();
-				} catch (InterruptedException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				if (next > 0)
+			try {
+				if (e.freeProcessador())
 				{
+					int next = -1;
 					try {
-						s.acquire();
-						filas.get(next).enviarProcesso(e.getD());
-						s.release();
-					} catch (InterruptedException e1) {
+						next = next();
+					} catch (InterruptedException e2) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						e2.printStackTrace();
+					}
+					if (next > 0)
+					{
+						try {
+							s.acquire();
+							filas.get(next).enviarProcesso(e.getD());
+							s.release();
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			try {
 				RRajust();

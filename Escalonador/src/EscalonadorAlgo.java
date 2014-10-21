@@ -1,5 +1,8 @@
 import java.util.Queue;
-
+/**
+ * Classe abstrata, serve para dar uma "interface" que todos os tipos de escalonamento devem seguir
+ *
+ */
 public abstract class EscalonadorAlgo {
 	protected Queue<Processo> fila;
 	public Queue<Processo> getFila()

@@ -1,5 +1,8 @@
 
-
+/**
+ * Classe que representa um processo
+ *
+ */
 public class Processo 
 {
 	private int TA; //TimeArrived
@@ -11,6 +14,13 @@ public class Processo
 	}
 	private int p;
 	private StatusProcesso status;
+	/**
+	 * Construtor da classe processo
+	 * @param tA int: tempo de chegada do processo
+	 * @param iD int:
+	 * @param burstTime int:
+	 * @param p int: 
+	 */
 	public Processo(int tA, int iD, int burstTime, int p) {
 		this.TA = tA;
 		this.ID = iD;
@@ -19,6 +29,10 @@ public class Processo
 		this.time = 0;
 		this.status = StatusProcesso.READY;
 	}
+	/**
+	 * Construtor da classe processo(copiando os valores de outro processo)
+	 * @param p2 processo: os valores de um processo a serem copiados
+	 */
 	public Processo(Processo p2) {
 		this.TA = p2.getTA();
 		this.ID = p2.getID();
