@@ -6,6 +6,7 @@ import java.util.Iterator;
  */
 public class Fila {
 	private EscalonadorAlgo esc;
+	private int tamMax;
 	/**
 	 * Constructor da classe Fila
 	 * @param s String: o tipo de escalonamento a ser utilizado(Ex: RR,SJB ...)
@@ -26,6 +27,7 @@ public class Fila {
 			case "Priorityp":
 				esc = new Priorityp();
 		}
+		tamMax = 0;
 	}
 	/**
 	 * Adiciona um processo a fila
@@ -33,7 +35,8 @@ public class Fila {
 	 */
 	public void add(Processo p)
 	{
-		esc.getFila().add(p);
+		esc.add(p);
+		tamMax++;
 	}
 	/**
 	 * Retorna o tamanho da fila
@@ -86,7 +89,7 @@ public class Fila {
 	 * @param d Despacho: um classe de despacho
 	 * @throws InterruptedException
 	 */
-	public void enviarProcesso(Despacho d) throws InterruptedException
+	public void enviarProcesso(Despacho d, MultinivelFila m) throws InterruptedException
 	{
 		Processo p = next();
 		if (p != null)
@@ -98,5 +101,18 @@ public class Fila {
 	public boolean restricao(Processo p)
 	{
 		return esc.restricao(p);
+	}
+	public int getTamMax() {
+		return tamMax;
+	}
+	public boolean haveProcess()
+	{
+		for (Iterator<Processo> it = esc.getFila().iterator();it.hasNext();)
+		{
+			Processo p = it.next();
+			if (p.getStatus() == StatusProcesso.QUEUE)
+				return true;
+		}
+		return false;
 	}
 }

@@ -10,27 +10,39 @@ import java.util.HashMap;
  *
  */
 public class Escalonador implements Runnable {
-	int nProcessor;
-	int nQueue;
-	HashMap<Integer,Fila> queuetype;
-	String migration;
-	ProcessadorCollection processadores;
-	ArrayList<Processo> processos;
-	MultinivelFila m;
+	private int nProcessor;
+	private int nQueue;
+	private HashMap<Integer,Fila> queuetype;
+	private String migration;
+	private ProcessadorCollection processadores;
+	private ArrayList<Processo> processos;
+	private MultinivelFila m;
+	private Relatorio r;
 	/**
 	 * Metodo construtor, usado pra forcar que as configuracoes iniciais do escalonador sejam
 	 * inicializadas junto com o escalonador
 	 * @param processos: String, representado os processos do sistema
 	 * @param configuracoes: String, com as configuracoes inicias do sistema
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public Escalonador (String processos, String configuracoes) throws IOException
+	public Escalonador (String processos, String configuracoes) throws IOException, InterruptedException
 	{
 		loadProcesses(processos);
 		Configuration c = new Configuration(configuracoes);
 		setInitialParameters(c);
 		System.out.println("All entries on system");
 		this.d = new Despacho(processadores);
+		this.r = new Relatorio(c);
+		reportProcessos();
+	}
+	public void reportProcessos()
+	{
+		for (Processo p : processos)
+		{
+			Processo aux = new Processo(p);
+			r.addProcesso(aux);
+		}
 	}
 	/**Inicializa as variaveis do escalonador e outras configurações
 	 * @param c: Configuration, classe com a configuracao inicial do sistema
@@ -55,7 +67,7 @@ public class Escalonador implements Runnable {
 				((RR)queuetype.get(j).getEscalonamento()).setQuantum(value);
 			}
 		}
-		m = new MultinivelFila(this, queuetype);
+		m = new MultinivelFila(this, queuetype,migration);
 		processadores = new ProcessadorCollection(nProcessor,m);
 	}
 	public ProcessadorCollection getProcessadores() {
@@ -113,7 +125,12 @@ public class Escalonador implements Runnable {
 			Thread.sleep(1000);
 			time++;
 			System.out.println("Time: "+time);
+			Finish();
 		}
+		System.out.println("--------------ALL STOP--------------");
+		r.setTempoTotal(time);
+		m.reportFilas();
+		System.exit(0);
 	}
 	void stop()
 	{
@@ -123,6 +140,10 @@ public class Escalonador implements Runnable {
 	public boolean freeProcessador() throws InterruptedException
 	{
 		return processadores.freeProcessador();
+	}
+	public boolean runProcessador() throws InterruptedException
+	{
+		return processadores.runProcessador();
 	}
 	/**
 	 * Le os processos do arquivo
@@ -161,5 +182,33 @@ public class Escalonador implements Runnable {
 				}
 			}
 		}
+	}
+	public void ChangeStatus (int id, StatusProcesso s)
+	{
+		synchronized(processos)
+		{
+			for (Processo p : processos)
+			{
+				if (p.getID() == id)
+					p.setStatus(s);
+			}
+		}
+	}
+	public void Finish () throws InterruptedException
+	{
+		synchronized(processos)
+		{
+			boolean b = true;
+			for (Processo p : processos)
+			{
+				if (p.getTA() >= time)
+					b = false;
+			}
+			if (b && (m.next() == -1) && !(this.runProcessador()))
+				stop();
+		}
+	}
+	public Relatorio getR() {
+		return r;
 	}
 }

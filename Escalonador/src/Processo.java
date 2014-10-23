@@ -14,6 +14,7 @@ public class Processo
 	}
 	private int p;
 	private StatusProcesso status;
+	private int TimeFinish;
 	/**
 	 * Construtor da classe processo
 	 * @param tA int: tempo de chegada do processo
@@ -27,7 +28,8 @@ public class Processo
 		this.BurstTime = burstTime;
 		this.p = p;
 		this.time = 0;
-		this.status = StatusProcesso.READY;
+		this.status = StatusProcesso.QUEUE;
+		TimeFinish = 0;
 	}
 	/**
 	 * Construtor da classe processo(copiando os valores de outro processo)
@@ -63,5 +65,17 @@ public class Processo
 	}
 	public void setStatus(StatusProcesso status) {
 		this.status = status;
+	}
+	public void setBurstTime(int burstTime) {
+		BurstTime = burstTime;
+	}
+	public void setTime(int time) {
+		this.time = time;
+	}
+	public int getTimeFinish() {
+		return TimeFinish;
+	}
+	public void setTimeFinish(int timeFinish) {
+		TimeFinish = timeFinish;
 	}
 }

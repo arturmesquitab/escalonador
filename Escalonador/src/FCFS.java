@@ -40,6 +40,12 @@ public class FCFS extends EscalonadorAlgo {
 		return true;
 	}
 
+	@Override
+	public void add(Processo p) {
+		fila.add(p);
+		
+	}
+
 
 	
 	/*

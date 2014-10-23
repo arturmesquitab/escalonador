@@ -6,6 +6,7 @@ public class Processador implements Runnable {
 	private int time;
 	private MultinivelFila m;
 	private int id;
+	private int TempoTotal;
 	public boolean isRun() {
 		return s == StatusProcessador.RUN;
 	}
@@ -23,6 +24,7 @@ public class Processador implements Runnable {
 		run = false;
 		this.m = m;
 		this.id = id;
+		this.TempoTotal = 0;
 	}
 	public StatusProcessador getS() {
 		return s;
@@ -47,7 +49,7 @@ public class Processador implements Runnable {
 		setP(p);
 		time = 0;
 		p.setStatus(StatusProcesso.RUN);
-		m.SetStatusProcess(p.getID(), StatusProcesso.RUN);
+		m.SetStatusProcess(p.getID(),p.getBurstTime(), StatusProcesso.RUN);
 		s = StatusProcessador.RUN;
 		run = true;
 		System.out.println("Process "+p.getID()+" running in processor "+id);
@@ -55,18 +57,19 @@ public class Processador implements Runnable {
 		{
 			p.run();
 			time++;
+			TempoTotal++;
 		}
 		if (p.getBurstTime() != p.getTime())
 		{
-			System.out.println("Process "+p.getID()+" stopped! Time executed: "+p.getTime());
-			p.setStatus(StatusProcesso.SLEEP);
-			m.SetStatusProcess(p.getID(), StatusProcesso.SLEEP);
+			System.out.println("Process "+p.getID()+" "+p.getBurstTime()+" stopped! Time executed: "+p.getTime()+" on processor "+id);
+			p.setStatus(StatusProcesso.QUEUE);
+			m.SetStatusProcess(p.getID(),p.getBurstTime(), StatusProcesso.QUEUE);
 		}
 		else
 		{
-			System.out.println("Process "+p.getID()+" finish!");
+			System.out.println("Process "+p.getID()+" "+p.getBurstTime()+" finish on processor "+id);
 			p.setStatus(StatusProcesso.FINISH);
-			m.SetStatusProcess(p.getID(), StatusProcesso.FINISH);
+			m.SetStatusProcess(p.getID(),p.getBurstTime(), StatusProcesso.FINISH);
 		}
 		s = StatusProcessador.SLEEP;
 		return time;
@@ -92,5 +95,8 @@ public class Processador implements Runnable {
 	}
 	public int getId() {
 		return id;
+	}
+	public int getTempoTotal() {
+		return TempoTotal;
 	}
 }

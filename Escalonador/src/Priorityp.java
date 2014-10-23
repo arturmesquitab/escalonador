@@ -47,4 +47,10 @@ public class Priorityp extends EscalonadorAlgo {
 		return true;
 	}
 
+	@Override
+	public void add(Processo p) {
+		fila.add(p);
+		
+	}
+
 }

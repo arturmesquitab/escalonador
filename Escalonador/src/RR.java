@@ -42,9 +42,20 @@ public class RR extends EscalonadorAlgo {
 
 	public boolean restricao(Processo p)
 	{
-		if (p.getTime() > quantum)
-			return false;
+		/*if (p.getTime() >= quantum)
+			return false;*/
 		return true;
+	}
+	@Override
+	public void add(Processo p) {
+		if (p.getBurstTime() > quantum)
+		{
+			Processo pq = new Processo(p.getTA(),p.getID(),quantum,p.getP());
+			fila.add(pq);
+			p.setBurstTime(p.getBurstTime()-quantum);
+			p.setStatus(StatusProcesso.SLEEP);
+		}
+		fila.add(p);
 	}
 	
 	/*

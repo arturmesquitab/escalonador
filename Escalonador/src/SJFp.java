@@ -115,4 +115,10 @@ public class SJFp extends EscalonadorAlgo {
 		start();
 	}
 	*/
+
+	@Override
+	public void add(Processo p) {
+		fila.add(p);
+		
+	}
 }

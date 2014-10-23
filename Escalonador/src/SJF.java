@@ -39,6 +39,12 @@ public class SJF extends EscalonadorAlgo {
 	{
 		return true;
 	}
+
+	@Override
+	public void add(Processo p) {
+		fila.add(p);
+		
+	}
 	
 	/*Queue<Processo> queue;
 	Processo current;

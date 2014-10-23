@@ -1,6 +1,8 @@
-#proc=3 
-#queue=2 
-q1=FCFS 
-q2=RR 
-q2.rr.quantum=10 
+#proc=2
+#queue=3
+q1=RR 
+q2=RR
+q3=FCFS 
+q1.rr.quantum=10
+q2.rr.quantum=20 
 migration=aging

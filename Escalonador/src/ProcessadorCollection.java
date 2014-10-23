@@ -15,6 +15,11 @@ public class ProcessadorCollection {
 		}
 		sp = new Semaphore(1);
 	}
+	public void report(Relatorio r)
+	{
+		for (Processador p : listaPC)
+			r.addProcessador(p);
+	}
 	public void add(Processador p)
 	{
 		listaPC.add(p);
@@ -33,13 +38,29 @@ public class ProcessadorCollection {
 		sp.release();
 		return false;
 	}
-	public void executarProcesso(Processo p) throws InterruptedException
+	public boolean runProcessador() throws InterruptedException
 	{
 		sp.acquire();
 		for (Processador it : listaPC)
 		{
+			if (it.isRun())
+			{
+				sp.release();
+				return true;
+			}
+		}
+		sp.release();
+		return false;
+	}
+	public void executarProcesso(Processo p) throws InterruptedException
+	{
+		sp.acquire();
+		boolean b = true;
+		for (Processador it : listaPC)
+		{
 			if (!it.isRun())
 			{
+				b = false;
 				it.setS(StatusProcessador.RUN);
 				System.out.println(p.getID()+" sending to processor "+it.getId());
 				it.setP(p);
@@ -48,14 +69,16 @@ public class ProcessadorCollection {
 				break;
 			}
 		}
+		if (b)
+			p.setStatus(StatusProcesso.QUEUE);
 		sp.release();
 	}
-	public void pararProcesso(int ID) throws InterruptedException
+	public void pararProcesso(int ID, int BurstTime) throws InterruptedException
 	{
 		sp.acquire();
 		for (Processador it : listaPC)
 		{
-			if (it.getP().getID() == ID)
+			if ((it.getP().getID() == ID) && (it.getP().getBurstTime() == BurstTime))
 				it.interruption();
 		}
 		sp.release();

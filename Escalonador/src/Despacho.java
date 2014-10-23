@@ -43,9 +43,12 @@ public class Despacho implements Runnable{
 			this.p.add(p);
 		}
 	}
-	public void stopProcesso(int ID) throws InterruptedException
+	public void stopProcesso(int ID, int BurstTime) throws InterruptedException
 	{
-		l.pararProcesso(ID);
+		synchronized(this.p)
+		{
+			l.pararProcesso(ID,BurstTime);
+		}
 	}
 	public void checkNewProcesses() throws InterruptedException
 	{
